@@ -1,16 +1,10 @@
-Building configuration...
-
-Current configuration : 3937 bytes
 !
-! Last configuration change at 17:00:52 UTC Wed Jan 14 2026
-!
-version 15.2
+version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
-service compress-config
 !
-hostname DSW-2
+hostname R1
 !
 boot-start-marker
 boot-end-marker
@@ -18,31 +12,41 @@ boot-end-marker
 !
 !
 no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
 !
 !
 !
 !
 !
 !
-!
-!
+no ip domain lookup
 ip cef
 no ipv6 cef
 !
-!
-!
-spanning-tree mode rapid-pvst
-spanning-tree extend system-id
-spanning-tree vlan 10 priority 8192
-spanning-tree vlan 20 priority 4096
+multilink bundle-name authenticated
 !
 !
 !
 !
 !
+redundancy
 !
+no cdp log mismatch duplex
 !
-!
+ip tcp synwait-time 5
 !
 !
 !
@@ -50,87 +54,60 @@ spanning-tree vlan 20 priority 4096
 !
 !
 !
-interface Port-channel1
- switchport trunk encapsulation dot1q
- switchport mode trunk
+!
+!
+!
+!
+!
 !
 interface GigabitEthernet0/0
- switchport trunk encapsulation dot1q
- switchport mode trunk
- negotiation auto
- channel-group 1 mode active
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
 !
 interface GigabitEthernet0/1
- switchport trunk encapsulation dot1q
- switchport mode trunk
- negotiation auto
- channel-group 1 mode active
+ ip address 10.0.0.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
 !
 interface GigabitEthernet0/2
- negotiation auto
+ ip address 10.0.0.5 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
 !
 interface GigabitEthernet0/3
- negotiation auto
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
 !
-interface GigabitEthernet1/0
- negotiation auto
-!
-interface GigabitEthernet1/1
- negotiation auto
-!
-interface GigabitEthernet1/2
- negotiation auto
-!
-interface GigabitEthernet1/3
- negotiation auto
-!
-interface GigabitEthernet2/0
- negotiation auto
-!
-interface GigabitEthernet2/1
- negotiation auto
-!
-interface GigabitEthernet2/2
- negotiation auto
-!
-interface GigabitEthernet2/3
- negotiation auto
-!
-interface GigabitEthernet3/0
- negotiation auto
-!
-interface GigabitEthernet3/1
- negotiation auto
-!
-interface GigabitEthernet3/2
- negotiation auto
-!
-interface GigabitEthernet3/3
- negotiation auto
-!
-interface Vlan10
- ip address 192.168.10.3 255.255.255.0
- standby 10 ip 192.168.10.254
- standby 10 timers msec 200 msec 750
-!
-interface Vlan20
- ip address 192.168.20.2 255.255.255.0
- standby 20 ip 192.168.20.254
- standby 20 timers msec 200 msec 750
- standby 20 priority 110
- standby 20 preempt
+router ospf 1
+ router-id 10.10.10.1
+ network 10.0.0.0 0.0.0.255 area 0
+ network 0.0.0.0 255.255.255.255 area 0
+ default-information originate
 !
 ip forward-protocol nd
 !
-ip http server
 !
-ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-!
-!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
 !
 !
 !
+access-list 1 permit 192.168.10.0 0.0.0.255
+access-list 1 permit 192.168.20.0 0.0.0.255
 !
 control-plane
 !
@@ -163,8 +140,17 @@ banner login ^C
 **************************************************************************^C
 !
 line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
 line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
 line vty 0 4
+ login
+ transport input none
 !
+no scheduler allocate
 !
 end
