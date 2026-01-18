@@ -33,6 +33,7 @@ no ip icmp rate-limit unreachable
 !
 !
 no ip domain lookup
+ip domain name gns3.lab
 ip cef
 no ipv6 cef
 !
@@ -41,6 +42,7 @@ multilink bundle-name authenticated
 !
 !
 !
+username admin privilege 15 password 0 cisco
 !
 redundancy
 !
@@ -146,8 +148,8 @@ line aux 0
  privilege level 15
  logging synchronous
 line vty 0 4
- login
- transport input none
+ login local
+ transport input ssh
 !
 no scheduler allocate
 !

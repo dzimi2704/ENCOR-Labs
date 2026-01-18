@@ -12,6 +12,7 @@ boot-end-marker
 !
 !
 !
+username admin privilege 15 password 0 cisco
 no aaa new-model
 !
 !
@@ -21,6 +22,7 @@ no aaa new-model
 !
 !
 !
+ip domain-name gns3.lab
 ip cef
 no ipv6 cef
 !
@@ -122,11 +124,15 @@ interface Vlan20
  standby 20 ip 192.168.20.254
  standby 20 timers msec 200 msec 750
 !
+interface Vlan99
+ ip address 10.99.99.1 255.255.255.0
+!
 router ospf 1
  router-id 1.1.1.1
  passive-interface Vlan10
  passive-interface Vlan20
  network 10.0.0.0 0.0.0.255 area 0
+ network 10.99.99.0 0.0.0.255 area 0
  network 192.168.10.0 0.0.0.255 area 0
  network 192.168.20.0 0.0.0.255 area 0
 !
@@ -175,7 +181,8 @@ banner login ^C
 line con 0
 line aux 0
 line vty 0 4
- login
+ login local
+ transport input ssh
 !
 !
 end
