@@ -1,0 +1,25 @@
+hostname ISP-R2
+!
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description Link to HQ-R1
+ ip address 198.51.100.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to BR-R3
+ ip address 203.0.113.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65000
+ bgp router-id 2.2.2.2
+ bgp log-neighbor-changes
+ neighbor 198.51.100.1 remote-as 65100
+ neighbor 203.0.113.1 remote-as 65200
+!

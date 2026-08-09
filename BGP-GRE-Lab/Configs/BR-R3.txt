@@ -1,0 +1,36 @@
+hostname BR-R3
+!
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Tunnel1
+ ip address 172.16.0.2 255.255.255.252
+ ip ospf 1 area 0
+ tunnel source 203.0.113.1
+ tunnel destination 198.51.100.1
+!
+interface GigabitEthernet0/0
+ description WAN to ISP
+ ip address 203.0.113.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Branch internal LAN
+ ip address 10.2.0.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 3.3.3.3
+ network 10.2.0.0 0.0.0.255 area 0
+ network 172.16.0.0 0.0.0.3 area 0
+!
+router bgp 65200
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ network 203.0.113.0 mask 255.255.255.252
+ neighbor 203.0.113.2 remote-as 65000
+!
