@@ -2,11 +2,11 @@
 
 ![MPLS Topology](MPLS%20Topology.png)
 
-Service Provider infrastruktura koja omogućava spajanje udaljenih korisničkih lokacija (CE) preko MPLS jezgra koristeći VRF izolaciju i MP-BGP za razmenu VPNv4 ruta.
+Service Provider infrastructure enabling the interconnection of remote customer sites (CE) across an MPLS core using VRF isolation and MP-BGP for VPNv4 route exchange.
 
 ---
 
-### Mrežne Uloge i Komponente
+### Network Roles and Components
 
 * **Customer Edge (CE):** CE-1, CE-2
 * **Provider Edge (PE):** PE-1, PE-2 (MP-BGP, VRF, MPLS)
