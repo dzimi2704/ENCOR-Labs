@@ -2,11 +2,11 @@
 
 ![Topology](Topology.PNG)
 
-Enterprise LAN infrastruktura sa Layer 2 i Layer 3 EtherChannel agregacijom linkova, OSPF rutingom i Python skriptom za automatsko pravljenje rezervnih kopija konfiguracija.
+Enterprise LAN infrastructure featuring Layer 2 and Layer 3 EtherChannel link aggregation, OSPF routing, and a Python script for automated configuration backups.
 
 ---
 
-### Mrežne Uloge i Komponente
+### Network Roles and Components
 
 * **Core / Edge Routers:** CiscoR1, CiscoR2
 * **Distribution Switches (L3):** DSW1, DSW2
