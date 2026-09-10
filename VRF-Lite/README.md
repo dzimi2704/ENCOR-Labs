@@ -3,7 +3,7 @@
 This lab demonstrates the implementation of VRF-Lite using OSPF across multi-tenant environments.
 
 ## Topology
-![vrfTopology](./vrfTopology.png)
+![vrfTopology](./vrfTopology.PNG)
 
 ## Overview
 * **VRFs Configured:** RED, GREEN, BLUE
